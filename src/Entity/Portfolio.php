@@ -39,7 +39,7 @@ class Portfolio
         return $this->FilePath;
     }
 
-    public function setPhotos(string $FilePath): self
+    public function setFilePath(string $FilePath): self
     {
         $this->FilePath = $FilePath;
 

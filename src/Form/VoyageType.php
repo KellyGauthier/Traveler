@@ -20,11 +20,18 @@ class VoyageType extends AbstractType
             ->add('Description')
             ->add('Date')
             ->add('Kilometres')
-            ->add('Destination', EntityType::class,[
+            ->add('Destination', EntityType::class, [
                 'class' => Destination::class,
                 'choice_label' => 'Ville',
             ])
-        ;
+            ->add('photos', FileType::class, [
+                'mapped' => false,
+                'multiple' => true,
+                'attr'     => [
+                    'accept' => 'image/*',
+                    'multiple' => 'multiple'
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

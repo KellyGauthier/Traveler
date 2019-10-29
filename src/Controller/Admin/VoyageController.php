@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Portfolio;
 use App\Entity\Voyage;
 use App\Form\VoyageType;
 use App\Repository\VoyageRepository;
@@ -35,7 +36,25 @@ class VoyageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $uploadedFile = $form['photos']->getData();
+            if ($uploadedFile) {
+                $entityManager = $this->getDoctrine()->getManager();
+
+                foreach ($uploadedFile as $upload) {
+                    $photo = new Portfolio();
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/uploads/photos';
+                    $originalFilename = pathinfo($upload->getClientOriginalName(), PATHINFO_FILENAME);
+                    $newFilename = $originalFilename . '-' . uniqid() . '.' . $upload->guessExtension();
+                    $upload->move(
+                        $destination,
+                        $newFilename
+                    );
+                    $photo->setFilePath($newFilename);
+                    $photo->setVoyage($voyage);
+                    $entityManager->persist($photo);
+                }
+            }
+
             $entityManager->persist($voyage);
             $entityManager->flush();
 
@@ -83,7 +102,7 @@ class VoyageController extends AbstractController
      */
     public function delete(Request $request, Voyage $voyage): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$voyage->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $voyage->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($voyage);
             $entityManager->flush();
