@@ -29,11 +29,6 @@ class Voyage
     private $Date;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $Kilometres;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Destination", inversedBy="voyages")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -81,18 +76,6 @@ class Voyage
     public function setDate(\DateTimeInterface $Date): self
     {
         $this->Date = $Date;
-
-        return $this;
-    }
-
-    public function getKilometres(): ?int
-    {
-        return $this->Kilometres;
-    }
-
-    public function setKilometres(int $Kilometres): self
-    {
-        $this->Kilometres = $Kilometres;
 
         return $this;
     }

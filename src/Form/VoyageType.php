@@ -19,7 +19,6 @@ class VoyageType extends AbstractType
             ->add('Titre')
             ->add('Description')
             ->add('Date')
-            ->add('Kilometres')
             ->add('Destination', EntityType::class, [
                 'class' => Destination::class,
                 'choice_label' => 'Ville',

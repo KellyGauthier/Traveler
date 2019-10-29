@@ -15,7 +15,6 @@
                 <th>Titre</th>
                 <th>Description</th>
                 <th>Date</th>
-                <th>Kilometres</th>
                 <th>Créé le</th>
                 <th>Actions</th>
             </tr>
@@ -27,7 +26,6 @@
                     <td>{{ voyage.Titre }}</td>
                     <td>{{ voyage.Description }}</td>
                     <td>{{ voyage.Date ? voyage.Date|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ voyage.Kilometres }}</td>
                     <td>{{ voyage.Created ? voyage.Created|date('Y-m-d H:i:s') : '' }}</td>
                     <td>
                         <a class="btn btn-primary" href="{{ path('admin_voyage_show', {'id': voyage.id}) }}">Voir</a>

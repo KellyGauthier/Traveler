@@ -22,12 +22,16 @@
                 <td>{{ voyage.Date ? voyage.Date|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Kilometres</th>
-                <td>{{ voyage.Kilometres }}</td>
-            </tr>
-            <tr>
                 <th>Créé le</th>
                 <td>{{ voyage.Created ? voyage.Created|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Photos</th>
+                <td>
+                    {% for photo in voyage.portfolios %}
+                    <img src="/uploads/photos/{{ photo.FilePath }}">
+                    {% endfor %}
+                </td>
             </tr>
         </tbody>
     </table>

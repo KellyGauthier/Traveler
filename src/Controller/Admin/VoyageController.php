@@ -86,7 +86,27 @@ class VoyageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $uploadedFile = $form['photos']->getData();
+            if ($uploadedFile) {
+                $entityManager = $this->getDoctrine()->getManager();
+
+                foreach ($uploadedFile as $upload) {
+                    $photo = new Portfolio();
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/uploads/photos';
+                    $originalFilename = pathinfo($upload->getClientOriginalName(), PATHINFO_FILENAME);
+                    $newFilename = $originalFilename . '-' . uniqid() . '.' . $upload->guessExtension();
+                    $upload->move(
+                        $destination,
+                        $newFilename
+                    );
+                    $photo->setFilePath($newFilename);
+                    $photo->setVoyage($voyage);
+                    $entityManager->persist($photo);
+                }
+            }
+
+            $entityManager->persist($voyage);
+            $entityManager->flush();
 
             return $this->redirectToRoute('admin_voyage_index');
         }
