@@ -19,7 +19,7 @@ class Pays
     private $Nom;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Destination", mappedBy="ID_pays", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Destination", mappedBy="Pays", orphanRemoval=true)
      */
     private $destinations;
 
@@ -27,6 +27,8 @@ class Pays
     {
         $this->destinations = new ArrayCollection();
     }
+
+    
 
     public function getNom(): ?string
     {
@@ -52,7 +54,7 @@ class Pays
     {
         if (!$this->destinations->contains($destination)) {
             $this->destinations[] = $destination;
-            $destination->setIDPays($this);
+            $destination->setPays($this);
         }
 
         return $this;
@@ -70,5 +72,7 @@ class Pays
 
         return $this;
     }
+
+   
 
 }

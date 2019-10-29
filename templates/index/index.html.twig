@@ -23,6 +23,11 @@
         <p class="lead">Bienvenue sur Traveler!</p>
         <hr class="my-4">
         <p>Suivez-moi dans mon voyage autour du monde!</p>
+
+        {% if app.user %}
+        Bonjour {{ app.user.login }}
+        {% else %}
         <a class="btn btn-primary btn-lg" href="{{ path('app_login') }}" role="button" id="connect">Connectez-vous</a>
+        {% endif %}
     </div>
 {% endblock %}

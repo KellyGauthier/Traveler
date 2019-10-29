@@ -1,0 +1,43 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20191029095119 extends AbstractMigration
+{
+    public function getDescription() : string
+    {
+        return '';
+    }
+
+    public function up(Schema $schema) : void
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+
+        $this->addSql('ALTER TABLE portfolio DROP FOREIGN KEY FK_A9ED1062E8FC5988');
+        $this->addSql('DROP INDEX IDX_A9ED1062E8FC5988 ON portfolio');
+        $this->addSql('ALTER TABLE portfolio CHANGE id_voyage_id voyage_id INT NOT NULL');
+        $this->addSql('ALTER TABLE portfolio ADD CONSTRAINT FK_A9ED106268C9E5AF FOREIGN KEY (voyage_id) REFERENCES voyage (id)');
+        $this->addSql('CREATE INDEX IDX_A9ED106268C9E5AF ON portfolio (voyage_id)');
+    }
+
+    public function down(Schema $schema) : void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+
+        $this->addSql('ALTER TABLE portfolio DROP FOREIGN KEY FK_A9ED106268C9E5AF');
+        $this->addSql('DROP INDEX IDX_A9ED106268C9E5AF ON portfolio');
+        $this->addSql('ALTER TABLE portfolio CHANGE voyage_id id_voyage_id INT NOT NULL');
+        $this->addSql('ALTER TABLE portfolio ADD CONSTRAINT FK_A9ED1062E8FC5988 FOREIGN KEY (id_voyage_id) REFERENCES voyage (id)');
+        $this->addSql('CREATE INDEX IDX_A9ED1062E8FC5988 ON portfolio (id_voyage_id)');
+    }
+}

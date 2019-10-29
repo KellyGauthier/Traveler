@@ -37,10 +37,10 @@ class Voyage
      * @ORM\ManyToOne(targetEntity="App\Entity\Destination", inversedBy="voyages")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $ID_destination;
+    private $destination;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Portfolio", mappedBy="ID_Voyage", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Portfolio", mappedBy="voyage", orphanRemoval=true)
      */
     private $portfolios;
 
@@ -48,7 +48,6 @@ class Voyage
     {
         $this->portfolios = new ArrayCollection();
     }
-
 
     public function getTitre(): ?string
     {
@@ -98,14 +97,14 @@ class Voyage
         return $this;
     }
 
-    public function getIDDestination(): ?Destination
+    public function getDestination(): ?Destination
     {
-        return $this->ID_destination;
+        return $this->destination;
     }
 
-    public function setIDDestination(?Destination $ID_destination): self
+    public function setDestination(?Destination $destination): self
     {
-        $this->ID_destination = $ID_destination;
+        $this->destination = $destination;
 
         return $this;
     }
@@ -122,7 +121,7 @@ class Voyage
     {
         if (!$this->portfolios->contains($portfolio)) {
             $this->portfolios[] = $portfolio;
-            $portfolio->setIDVoyage($this);
+            $portfolio->setVoyage($this);
         }
 
         return $this;
@@ -133,13 +132,11 @@ class Voyage
         if ($this->portfolios->contains($portfolio)) {
             $this->portfolios->removeElement($portfolio);
             // set the owning side to null (unless already changed)
-            if ($portfolio->getIDVoyage() === $this) {
-                $portfolio->setIDVoyage(null);
+            if ($portfolio->getVoyage() === $this) {
+                $portfolio->setVoyage(null);
             }
         }
 
         return $this;
     }
-
-
 }

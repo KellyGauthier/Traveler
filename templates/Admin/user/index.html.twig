@@ -1,19 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}
+{{ parent() }} Récapitulatif utilisateurs
+{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+    <h1>Récapitulatif des utilisateurs</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Login</th>
                 <th>Roles</th>
-                <th>Password</th>
+                <th>Mot de passe</th>
                 <th>Id</th>
-                <th>Created</th>
-                <th>actions</th>
+                <th>Créer le</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -25,17 +27,17 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.Created ? user.Created|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('admin_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('admin_user_edit', {'id': user.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('admin_user_show', {'id': user.id}) }}">Voir</a>
+                    <a class="btn btn-primary" href="{{ path('admin_user_edit', {'id': user.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Pas d'utilisateur trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('admin_user_new') }}">Create new</a>
+    <a class="btn btn-info" href="{{ path('admin_user_new') }}">Créer un nouvelle utilisateur</a>
 {% endblock %}

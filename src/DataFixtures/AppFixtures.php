@@ -49,9 +49,7 @@ class AppFixtures extends Fixture
         // get data from csv file
         $paysFile = fopen(__DIR__ .'/../../data/ListeDePays.csv', 'r');
 
-        $row = 0;
         if ($paysFile !== false) {
-            $array_file_data = array();
             while (($data = fgetcsv($paysFile, 1000)) !== false) {
                 $pays = new Pays();
                 $pays->setNom($data[0]);

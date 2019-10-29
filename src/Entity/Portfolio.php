@@ -31,7 +31,7 @@ class Portfolio
      * @ORM\ManyToOne(targetEntity="App\Entity\Voyage", inversedBy="portfolios")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $ID_Voyage;
+    private $voyage;
 
 
     public function getFilePath(): ?string
@@ -71,16 +71,15 @@ class Portfolio
         return $this;
     }
 
-    public function getIDVoyage(): ?Voyage
+    public function getVoyage(): ?Voyage
     {
-        return $this->ID_Voyage;
+        return $this->voyage;
     }
 
-    public function setIDVoyage(?Voyage $ID_Voyage): self
+    public function setVoyage(?Voyage $voyage): self
     {
-        $this->ID_Voyage = $ID_Voyage;
+        $this->voyage = $voyage;
 
         return $this;
     }
-
 }

@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Destination{% endblock %}
+{% block title %}
+{{ parent() }} Destination
+{% endblock %}
 
 {% block body %}
     <h1>Destination</h1>
@@ -20,19 +22,15 @@
                 <td>{{ destination.Longitude }}</td>
             </tr>
             <tr>
-                <th>Id</th>
-                <td>{{ destination.id }}</td>
-            </tr>
-            <tr>
-                <th>Created</th>
+                <th>Créé le</th>
                 <td>{{ destination.Created ? destination.Created|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('admin_destination_index') }}">back to list</a>
+    <a class="btn btn-info" href="{{ path('admin_destination_index') }}">Revenir à la liste des destinations</a>
 
-    <a href="{{ path('admin_destination_edit', {'id': destination.id}) }}">edit</a>
+    <a class="btn btn-info" href="{{ path('admin_destination_edit', {'id': destination.id}) }}">Modifier</a>
 
     {{ include('admin/destination/_delete_form.html.twig') }}
 {% endblock %}

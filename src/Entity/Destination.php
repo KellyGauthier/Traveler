@@ -29,6 +29,8 @@ class Destination
     private $Longitude;
 
 
+
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Pays", inversedBy="destinations")
      * @ORM\JoinColumn(nullable=false)
@@ -36,7 +38,7 @@ class Destination
     private $Pays;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Voyage", mappedBy="ID_destination", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Voyage", mappedBy="destination", orphanRemoval=true)
      */
     private $voyages;
 
@@ -44,6 +46,8 @@ class Destination
     {
         $this->voyages = new ArrayCollection();
     }
+
+
 
     public function getVille(): ?string
     {
@@ -81,6 +85,7 @@ class Destination
         return $this;
     }
 
+
     public function getPays(): ?Pays
     {
         return $this->Pays;
@@ -105,7 +110,7 @@ class Destination
     {
         if (!$this->voyages->contains($voyage)) {
             $this->voyages[] = $voyage;
-            $voyage->setIDDestination($this);
+            $voyage->setDestination($this);
         }
 
         return $this;
@@ -116,8 +121,8 @@ class Destination
         if ($this->voyages->contains($voyage)) {
             $this->voyages->removeElement($voyage);
             // set the owning side to null (unless already changed)
-            if ($voyage->getIDDestination() === $this) {
-                $voyage->setIDDestination(null);
+            if ($voyage->getDestination() === $this) {
+                $voyage->setDestination(null);
             }
         }
 
