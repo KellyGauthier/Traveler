@@ -63,8 +63,8 @@ class Pays
         if ($this->destinations->contains($destination)) {
             $this->destinations->removeElement($destination);
             // set the owning side to null (unless already changed)
-            if ($destination->getIDPays() === $this) {
-                $destination->setIDPays(null);
+            if ($destination->getPays() === $this) {
+                $destination->setPays(null);
             }
         }
 

@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Pays;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -29,20 +30,36 @@ class AppFixtures extends Fixture
             ));
 
         $manager->persist($admin);
-        $manager->flush();
+        
 
         $faker = Factory::create();
 
-        for($i = 0; $i<5; $i++){
+        for ($i = 0; $i < 5; $i++) {
             $user = new User();
             $user->setLogin($faker->username)
                 // Pas obligatoire car par défaut dans getRoles, c'est par défaut
                 // ->setRoles(['ROLE_USER])
                 ->setPassword($faker->password);
-        
-        $manager->persist($user);
-        $manager->flush();
+
+            $manager->persist($user);
 
         }
+
+
+        // get data from csv file
+        $paysFile = fopen(__DIR__ .'/../../data/ListeDePays.csv', 'r');
+
+        $row = 0;
+        if ($paysFile !== false) {
+            $array_file_data = array();
+            while (($data = fgetcsv($paysFile, 1000)) !== false) {
+                $pays = new Pays();
+                $pays->setNom($data[0]);
+
+                $manager->persist($pays);
+            }
+        }
+
+        $manager->flush();
     }
 }

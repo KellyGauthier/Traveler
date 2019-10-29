@@ -33,7 +33,7 @@ class Destination
      * @ORM\ManyToOne(targetEntity="App\Entity\Pays", inversedBy="destinations")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $ID_pays;
+    private $Pays;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Voyage", mappedBy="ID_destination", orphanRemoval=true)
@@ -81,14 +81,14 @@ class Destination
         return $this;
     }
 
-    public function getIDPays(): ?Pays
+    public function getPays(): ?Pays
     {
-        return $this->ID_pays;
+        return $this->Pays;
     }
 
-    public function setIDPays(?Pays $ID_pays): self
+    public function setPays(?Pays $Pays): self
     {
-        $this->ID_pays = $ID_pays;
+        $this->Pays = $Pays;
 
         return $this;
     }
