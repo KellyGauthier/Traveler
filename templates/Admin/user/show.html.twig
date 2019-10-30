@@ -1,40 +1,43 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-{{ parent() }} Utilisateur
+    {{ parent() }}
+    Utilisateur
 {% endblock %}
 
 {% block body %}
-    <h1>Utilisateur</h1>
+    <div class="container pt-3">
+        <h1>Utilisateur</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Login</th>
-                <td>{{ user.login }}</td>
-            </tr>
-            <tr>
-                <th>Role</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Mot de passe</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Créé le</th>
-                <td>{{ user.Created ? user.Created|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Login</th>
+                    <td>{{ user.login }}</td>
+                </tr>
+                <tr>
+                    <th>Role</th>
+                    <td>{{ include('admin/user/roles_pills.html.twig', { roles: user.roles }) }}</td>
+                </tr>
+                <tr>
+                    <th>Mot de passe</th>
+                    <td>{{ user.password }}</td>
+                </tr>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ user.id }}</td>
+                </tr>
+                <tr>
+                    <th>Créé le</th>
+                    <td>{{ user.Created ? user.Created|date('d-m-Y') : '' }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <a class="btn btn-info" href="{{ path('admin_user_index') }}">Revenir à la liste des utilisateurs</a>
+        <a class="btn btn-info" href="{{ path('admin_user_index') }}">Revenir à la liste des utilisateurs</a>
 
-    <a class="btn btn-info" href="{{ path('admin_user_edit', {'id': user.id}) }}">Modifier</a>
+        <a class="btn btn-info" href="{{ path('admin_user_edit', {'id': user.id}) }}">Modifier</a>
 
-    {{ include('admin/user/_delete_form.html.twig') }}
+        {{ include('admin/user/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

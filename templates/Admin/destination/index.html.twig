@@ -6,39 +6,33 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Récapitulatif des destinations</h1>
+    <div class="container pt-3">
+        <h1>Récapitulatif des destinations</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Ville</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Créé le</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for destination in destinations %}
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>{{ destination.id}}</td>
-                    <td>{{ destination.Ville }}</td>
-                    <td>{{ destination.Latitude }}</td>
-                    <td>{{ destination.Longitude }}</td>
-                    <td>{{ destination.Created ? destination.Created|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>
-                        <a class="btn btn-primary" href="{{ path('admin_destination_show', {'id': destination.id}) }}">Voir</a>
-                        <a class="btn btn-primary" href="{{ path('admin_destination_edit', {'id': destination.id}) }}">Modifier</a>
-                    </td>
+                    <th>Ville</th>
+                    <th>Actions</th>
                 </tr>
-            {% else %}
-                <tr>
-                    <td colspan="6">Pas de destination trouvée</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for destination in destinations %}
+                    <tr>
+                        <td>{{ destination.Ville }}</td>
+                        <td>
+                            <a class="btn btn-primary" href="{{ path('admin_destination_show', {'id': destination.id}) }}">Voir</a>
+                            <a class="btn btn-primary" href="{{ path('admin_destination_edit', {'id': destination.id}) }}">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">Pas de destination trouvée</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <a class="btn btn-info" href="{{ path('admin_destination_new') }}">Créer une nouvelle destination</a>
+        <a class="btn btn-info" href="{{ path('admin_destination_new') }}">Créer une nouvelle destination</a>
+    </div>
 {% endblock %}

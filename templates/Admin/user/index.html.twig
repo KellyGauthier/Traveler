@@ -1,43 +1,49 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-{{ parent() }} Récapitulatif utilisateurs
+    {{ parent() }}
+    Récapitulatif utilisateurs
 {% endblock %}
 
 {% block body %}
-    <h1>Récapitulatif des utilisateurs</h1>
+    <div class="container pt-3">
+        <h1>Récapitulatif des utilisateurs</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Login</th>
-                <th>Roles</th>
-                <th>Mot de passe</th>
-                <th>Id</th>
-                <th>Créé le</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.login }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.id }}</td>
-                <td>{{ user.Created ? user.Created|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a class="btn btn-primary" href="{{ path('admin_user_show', {'id': user.id}) }}">Voir</a>
-                    <a class="btn btn-primary" href="{{ path('admin_user_edit', {'id': user.id}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">Pas d'utilisateur trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Login</th>
+                    <th>Roles</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.login }}</td>
+                        <td>
+                            {% for role in user.roles %}
+                                {% if role == 'ROLE_ADMIN' %}
+                                    <span class="badge badge-pill badge-success">Administrateur</span>
+                                {% endif %}
+                                {% if role == 'ROLE_USER' %}
+                                    <span class="badge badge-pill badge-primary">Utilisateur</span>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" href="{{ path('admin_user_show', {'id': user.id}) }}">Voir</a>
+                            <a class="btn btn-primary" href="{{ path('admin_user_edit', {'id': user.id}) }}">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">Pas d'utilisateur trouvé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <a class="btn btn-info" href="{{ path('admin_user_new') }}">Créer un nouvel utilisateur</a>
+        <a class="btn btn-info" href="{{ path('admin_user_new') }}">Créer un nouvel utilisateur</a>
+    </div>
 {% endblock %}

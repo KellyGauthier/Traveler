@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-{{ parent() }} Nouvel utilisateur
+    {{ parent() }}
+    Nouvel utilisateur
 {% endblock %}
 
 {% block body %}
-    <h1>Créer un nouvel utilisateur</h1>
+    <div class="container pt-3">
+        <h1>Créer un nouvel utilisateur</h1>
 
-    {{ include('admin/user/_form.html.twig') }}
+        {{ include('admin/user/_form.html.twig', { context: 'NEW' }) }}
 
-    <a class="btn btn-info" href="{{ path('admin_user_index') }}">Revenir à la liste des utilisateurs</a>
+        <a class="btn btn-info" href="{{ path('admin_user_index') }}">Revenir à la liste des utilisateurs</a>
+    </div>
 {% endblock %}
