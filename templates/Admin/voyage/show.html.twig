@@ -29,7 +29,7 @@
                 <th>Photos</th>
                 <td>
                     {% for photo in voyage.portfolios %}
-                    <img src="{{ asset('uploads/photos/' ~ photo.filePath) | imagine_filter('my_thumb')}}">
+                    <img src="{{ asset('uploads/photos/' ~ photo.filePath) | imagine_filter('voyage_thumb')}}">
                     {% endfor %}
                 </td>
             </tr>

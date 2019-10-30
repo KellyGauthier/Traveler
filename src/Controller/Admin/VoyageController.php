@@ -34,33 +34,29 @@ class VoyageController extends AbstractController
         $voyage = new Voyage();
         $form = $this->createForm(VoyageType::class, $voyage);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
             $uploadedFile = $form['photos']->getData();
-            if ($uploadedFile) {
-                $entityManager = $this->getDoctrine()->getManager();
 
-                foreach ($uploadedFile as $upload) {
-                    $photo = new Portfolio();
-                    $destination = $this->getParameter('kernel.project_dir') . '/public/uploads/photos';
-                    $originalFilename = pathinfo($upload->getClientOriginalName(), PATHINFO_FILENAME);
-                    $newFilename = $originalFilename . '-' . uniqid() . '.' . $upload->guessExtension();
-                    $upload->move(
-                        $destination,
-                        $newFilename
-                    );
-                    $photo->setFilePath($newFilename);
-                    $photo->setVoyage($voyage);
-                    $entityManager->persist($photo);
-                }
+
+            foreach ($uploadedFile as $upload) {
+                $photo = new Portfolio();
+                $destination = $this->getParameter('kernel.project_dir') . '/public/uploads/photos';
+                $originalFilename = pathinfo($upload->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename . '-' . uniqid() . '.' . $upload->guessExtension();
+                $upload->move(
+                    $destination,
+                    $newFilename
+                );
+                $photo->setFilePath($newFilename);
+                $photo->setVoyage($voyage);
+                $entityManager->persist($photo);
             }
 
             $entityManager->persist($voyage);
             $entityManager->flush();
-
             return $this->redirectToRoute('admin_voyage_index');
         }
-
         return $this->render('admin/voyage/new.html.twig', [
             'voyage' => $voyage,
             'form' => $form->createView(),
@@ -84,33 +80,28 @@ class VoyageController extends AbstractController
     {
         $form = $this->createForm(VoyageType::class, $voyage);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
             $uploadedFile = $form['photos']->getData();
-            if ($uploadedFile) {
-                $entityManager = $this->getDoctrine()->getManager();
 
-                foreach ($uploadedFile as $upload) {
-                    $photo = new Portfolio();
-                    $destination = $this->getParameter('kernel.project_dir') . '/public/uploads/photos';
-                    $originalFilename = pathinfo($upload->getClientOriginalName(), PATHINFO_FILENAME);
-                    $newFilename = $originalFilename . '-' . uniqid() . '.' . $upload->guessExtension();
-                    $upload->move(
-                        $destination,
-                        $newFilename
-                    );
-                    $photo->setFilePath($newFilename);
-                    $photo->setVoyage($voyage);
-                    $entityManager->persist($photo);
-                }
+            foreach ($uploadedFile as $upload) {
+                $photo = new Portfolio();
+                $destination = $this->getParameter('kernel.project_dir') . '/public/uploads/photos';
+                $originalFilename = pathinfo($upload->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename . '-' . uniqid() . '.' . $upload->guessExtension();
+                $upload->move(
+                    $destination,
+                    $newFilename
+                );
+                $photo->setFilePath($newFilename);
+                $photo->setVoyage($voyage);
+                $entityManager->persist($photo);
             }
 
             $entityManager->persist($voyage);
             $entityManager->flush();
-
             return $this->redirectToRoute('admin_voyage_index');
         }
-
         return $this->render('admin/voyage/edit.html.twig', [
             'voyage' => $voyage,
             'form' => $form->createView(),
@@ -124,6 +115,11 @@ class VoyageController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $voyage->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $photos = $voyage->getPhotos();
+            foreach ($photos as $photo) {
+                unlink($this->getParameter('kernel.project_dir') . '/public/uploads/voyage');
+            }
+
             $entityManager->remove($voyage);
             $entityManager->flush();
         }
