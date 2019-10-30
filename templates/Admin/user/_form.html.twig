@@ -1,4 +1,5 @@
 {{ form_start(form) }}
+    {{ form_errors(form) }}
     {{ form_widget(form.login) }}
     {% if context == 'NEW' %}
         {{ form_row(form.password) }}
